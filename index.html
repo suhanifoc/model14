@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple AI Chatbot</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chatbox {
+            width: 350px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px #aaa;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4b50d9;
+        }
+
+        #chat {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 68%;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background: #4b50d9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3035a8;
+        }
+
+        .user {
+            color: blue;
+            margin: 10px 0;
+        }
+
+        .bot {
+            color: green;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="chatbox">
+    <h2>🤖 My AI Chatbot</h2>
+
+    <div id="chat">
+        <p class="bot"><b>AI:</b> Hello! How can I help you?</p>
+    </div>
+
+    <input type="text" id="message"
+           placeholder="Type your message..."
+           onkeydown="if(event.key==='Enter') sendMessage()">
+
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    function sendMessage() {
+        let input = document.getElementById("message");
+        let message = input.value.trim();
+        let chat = document.getElementById("chat");
+
+        if (message === "") return;
+
+        chat.innerHTML +=
+            <p class="user"><b>You:</b> ${escapeHTML(message)}</p>;
+
+        let text = message.toLowerCase();
+        let reply = "";
+
+        if (text.includes("hello") || text.includes("hi")) {
+            reply = "Hello! Welcome to My AI Chatbot.";
+        } 
+        else if (text.includes("your name")) {
+            reply = "My name is My AI Chatbot.";
+        } 
+        else if (text.includes("how are you")) {
+            reply = "I am fine! How can I help you?";
+        } 
+        else if (text.includes("time")) {
+            reply = "Your current time is " +
+                new Date().toLocaleTimeString();
+        } 
+        else if (text.includes("date")) {
+            reply = "Today's date is " +
+                new Date().toLocaleDateString();
+        } 
+        else if (text.includes("html")) {
+            reply = "HTML is used to create web pages.";
+        } 
+        else if (text.includes("ai")) {
+            reply = "AI stands for Artificial Intelligence.";
+        } 
+        else if (text.includes("bye")) {
+            reply = "Goodbye! Have a nice day.";
+        } 
+        else {
+            reply = "Sorry, I don't know that yet. Try asking about AI, HTML, time, or date.";
+        }
+
+        chat.innerHTML +=
+            <p class="bot"><b>AI:</b> ${escapeHTML(reply)}</p>;
+
+        chat.scrollTop = chat.scrollHeight;
+        input.value = "";
+    }
+
+    function escapeHTML(text) {
+        return text.replace(/[&<>"']/g, function (char) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[char];
+        });
+    }
+</script>
+
+</body>
+</html>
